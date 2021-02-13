@@ -1,5 +1,12 @@
 # Algoritmos Genéritos Aplicados ao problema do Caixeiro Viajante
+ 
+ ## O Problema do Caixeiro Viajante 
 
+ O problema do caixeiro viajante, ou traveling salesman(TSP), consiste  em determinar o caminho mais eficiente entre dois pontos passando em todas N cidades no meio do caminho sem repetir. Se trata de uma problema de análise combinatória, uma vez que o caixeiro pode realizar N! caminhos. Computacionalmente seria muito custoso realizar o cálculo de todos caminhos possíveis, por exemplos, se ele tivesse que passar por 10 cidades haveriam 10!=3628800
+
+ 
+
+ 
 
 ## Algoritmos Genéticos
 
