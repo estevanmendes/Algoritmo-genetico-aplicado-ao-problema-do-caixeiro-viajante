@@ -48,13 +48,7 @@ class Genetic_algoruthm():
                 parents_selected[i,j]=(np.array(np.where(np.greater_equal(wheel,spin)==True)))[0,0]
         return parents_selected
 
-    def choice():
-        np.linspace(n1,n2)
-        np.
-        
-
-
-
+   
 class Crossover(Genetic_algoruthm):
 
     def SCRX(self):
