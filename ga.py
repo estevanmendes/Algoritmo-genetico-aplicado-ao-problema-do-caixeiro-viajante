@@ -60,10 +60,21 @@ class Crossover(Genetic_algoruthm):
         child[equal]=parent1[equal]
         differ=np.arange(self.number_of_city)[~equal]
         for i in differ:
-            loc1=parent1[i-1:i]
-            loc2=parent2[i-1:i]
-            self.fitness_matrix
+            loc1_1=parent1[i-1]
+            loc1_2=parent1[i]
+            
+            loc2_1=parent2[i-1]
+            loc2_2=parent2[i]
 
+            fit1=self.fitness_matrix[loc1_1,loc1_2]
+            fit2=self.fitness_matrix[loc2_1,loc2_2]
+
+            if fit1>fit2:
+                child[i]=parent1[i]
+            else:
+                child[i]=parent2[i]
+
+        return child
                     
 
 
