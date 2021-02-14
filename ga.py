@@ -13,7 +13,8 @@ class Genetic_algoruthm():
         np.random.seed(random_seed)
 
         if not cost_matrix:
-            self.cost_matrix=np.random.rand(number_of_city,number_of_city)
+            self.cost_matrix=np.random.rand(number_of_city,number_of_city)*100
+            self.cost_matrix[np.diag_indices(number_of_city)]=999*np.ones(number_of_city)
 
 
         initial_pop=np.tile(np.arange(number_of_city),(population_size,1))
@@ -38,22 +39,37 @@ class Genetic_algoruthm():
         pass
 
 
-    def roullete_wheel_selection(self,n_parents):
-        parents_selected=np.zeros((n_parents,2))
+    def roullete_wheel_selection(self):
+        parents_selected=np.zeros(2)
         tri_lower=np.tril(np.ones((self.population_size,self.population_size)))
         wheel=np.dot(tri_lower,self.fitness_pop)
-        for i in range(n_parents)
-            for j in range(2):
-                spin=np.random.uniform(max(wheel))
-                parents_selected[i,j]=(np.array(np.where(np.greater_equal(wheel,spin)==True)))[0,0]
+        for j in range(2):
+            spin=np.random.uniform(max(wheel))
+            parents_selected[j]=(np.array(np.where(np.greater_equal(wheel,spin)==True)))[0,0]
         return parents_selected
 
    
 class Crossover(Genetic_algoruthm):
 
     def SCRX(self):
-        pass
+        parents_number=self.roullete_wheel_selection(n_parents=self.population_size)
+        child=np.zeros(self.number_of_city)
+        parent1=self.population[parents_number[0],:]
+        parent2=self.population[parents_number[1],:]
+        equal=np.equal(parent1,parent2)
+        child[equal]=parent1[equal]
+        differ=np.arange(self.number_of_city)[~equal]
+        for i in differ:
+            loc1=parent1[i-1:i]
+            loc2=parent2[i-1:i]
+            self.fitness_matrix
 
+                    
+
+
+            
+            
+        
 
     def run(self):
         pass
