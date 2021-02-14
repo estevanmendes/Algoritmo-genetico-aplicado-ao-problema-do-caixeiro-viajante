@@ -36,7 +36,22 @@ class Genetic_algoruthm():
 
 
     def Mutation(self):
-        pass
+        prob=self.mutation_prob
+        mutation_random=np.random.uniform(size=self.population_size)
+        threshold=np.ones(self.population_size)*prob
+        pop_mutated=np.less_equal(mutation_random,threshold)
+        temp=np.arange(self.population_size)
+        pop_mutated=temp[pop_mutated]
+        for  i in pop_mutated:
+            changes=np.random.randint(1,self.number_of_city-1,size=2)
+            a=int(self.population[i,changes[0]])
+            b=int(self.population[i,changes[1]])
+            self.population[i,changes[0]]=b
+            self.population[i,changes[1]]=a
+
+
+
+
 
 
     def roullete_wheel_selection(self):
