@@ -1,8 +1,12 @@
 import numpy as np
 
+
+
 class Genetic_algoruthm():
 
     def __init__ (self,number_of_city=20,population_size=100,mutation_prob=0.001,crossover_prob=0.6,cost_matrix=False,random_seed=42,generations=100):
+
+        #generations have to be larger than 1
 
         self.number_of_city=number_of_city
         self.population_size=population_size
@@ -61,29 +65,37 @@ class Genetic_algoruthm():
             parents_selected[j]=(np.array(np.where(np.greater_equal(wheel,spin)==True)))[0,0]
         return parents_selected
 
-    def run(self,crossover_function=None,mutation=True):
+    def run(self,crossover_function,mutation=True):
         children=np.zeros((self.population_size,self.number_of_city))
         if mutation:
             for i in range(self.generations):
                 self.fitness()
-                for j in range(self.population_size):              
-                    parents_number=self.roullete_wheel_selection() 
-                    children[j,:]=self.SCRX(parents_number)
+                for j in range(self.population_size):                               
+                    children[j,:]=crossover_function()
+                    
                 self.population=children
                 self.Mutation()
         else:
             for i in range(self.generations):
                 self.fitness()
-                for j in range(self.population_size):              
-                    parents_number=self.roullete_wheel_selection()
-                    children[j,:]=self.crossover_function(parents_number)
+                for j in range(self.population_size):        
+                    
+                    children[j,:]=crossover_function
+
                 self.population=children
+
+
+        def dataframe(self):
+            pass
+        
+        def graph(self):
+            pass
 
    
 class Crossover(Genetic_algoruthm):
 
-    def SCRX(self,parents_number):
-        
+    def SCRX(self):
+        parents_number=self.roullete_wheel_selection() 
         child=np.zeros(int(self.number_of_city))
         parent1=self.population[int(parents_number[0]),:]
         parent2=self.population[int(parents_number[1]),:]
@@ -107,6 +119,5 @@ class Crossover(Genetic_algoruthm):
 
         return child
                     
-
 
 
