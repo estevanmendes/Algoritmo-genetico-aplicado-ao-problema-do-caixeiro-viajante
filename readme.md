@@ -54,6 +54,21 @@ O pai tem o caminho 1-2, a mãe tem o caminho1-2, logo o filho terá como segund
 
 ## Guia Rápido do Código 
 
+Há duas classes no programa a primeira detem a estrutura fundamental para um tipo de tratamento dos algoritmos genéticos, a segunda contém os operadores que realizam o crossovers nos arrays fazendo o cruzamento entre os pais. 
+
+### Genetic algorithm
+
+#### Atributos
+
+#### Métodos 
+
+
+### Crossover
+
+#### Atributos
+
+#### Métodos 
+
 
 ## Referências
 

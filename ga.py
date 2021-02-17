@@ -2,9 +2,9 @@ import numpy as np
 
 
 
-class Genetic_algoruthm():
+class Genetic_algorithm():
 
-    def __init__ (self,number_of_city=20,population_size=100,mutation_prob=0.001,crossover_prob=0.6,cost_matrix=False,random_seed=42,generations=100):
+    def __init__ (self,number_of_city=20,population_size=100,mutation_prob=0.001,crossover_prob=0.6,cost_matrix=False,random_seed=42,generations=100,):
 
         #generations have to be larger than 1
 
@@ -32,6 +32,10 @@ class Genetic_algoruthm():
 
         self.population=initial_pop
         self.fitness_pop=np.zeros(population_size)
+        self.population_history=np.ones((population_size,generations,number_of_city))*100
+        self.fitness_history=np.zeros((population_size,generations))
+        
+        
 
 
     def fitness(self,cost_matrix=False,maxmization=False):
@@ -39,7 +43,6 @@ class Genetic_algoruthm():
         for i in range(self.population_size):
             for j in range(self.number_of_city-1):
                 self.fitness_pop[i]+=self.fitness_matrix[int(self.population[i,j]),int(self.population[i,j+1])]
-
 
     def Mutation(self):
         prob=self.mutation_prob
@@ -65,8 +68,12 @@ class Genetic_algoruthm():
             parents_selected[j]=(np.array(np.where(np.greater_equal(wheel,spin)==True)))[0,0]
         return parents_selected
 
-    def run(self,crossover_function,mutation=True):
+    def run(self,crossover_function,mutation=True,first_round=True):
         children=np.zeros((self.population_size,self.number_of_city))
+        if not first_round:
+            self.population_history=np.hstack((np.ones((self.population_size,self.generations,self.number_of_city)),self.population_history))
+            self.fitness_history=np.hstack((np.ones((self.population_size,self.generations)),self.fitness_history))
+
         if mutation:
             for i in range(self.generations):
                 self.fitness()
@@ -75,24 +82,34 @@ class Genetic_algoruthm():
                     
                 self.population=children
                 self.Mutation()
+                self.population_history[:,-1-i]=self.population
+                self.fitness_history[:,-1-i]=self.fitness_pop
+
         else:
             for i in range(self.generations):
                 self.fitness()
                 for j in range(self.population_size):        
                     
-                    children[j,:]=crossover_function
+                    children[j,:]=crossover_function()
 
                 self.population=children
+                self.population_history[:,i]=self.population
+
+            
+
 
 
         def dataframe(self):
             pass
         
         def graph(self):
+            import matplotlib.pyplot as plt
+
+
             pass
 
    
-class Crossover(Genetic_algoruthm):
+class Crossover(Genetic_algorithm):
 
     def SCRX(self):
         parents_number=self.roullete_wheel_selection() 
