@@ -76,4 +76,4 @@ Há duas classes no programa a primeira detem a estrutura fundamental para um ti
 
 ## Comentários
 
-O presente código foi inicialmente desenvolvido para ser o trabalho final da matéria [Métodos Computacionais em Física II](). Além do código um [relatório](/pdf/relatorio) foi produzido, e pode ser encontrado na pasta pdf.
+O presente código foi inicialmente desenvolvido para ser o trabalho final da matéria [Métodos Computacionais em Física II](). Além do código um [relatório](/pdf/relatorio.pdf) foi produzido, e pode ser encontrado na pasta pdf.
