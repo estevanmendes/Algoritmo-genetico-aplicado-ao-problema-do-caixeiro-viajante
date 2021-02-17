@@ -40,10 +40,25 @@ Utilizando esse método damos prioridade aos indivíduos com maior fitness, pois
 
 ### Operadores de Crossover
 
+Há diversos tipos de algoritmos de crossover, cujo objetivo é fazer a mistura dos genes dos pais de forma aleatória preservando o conceito do problema do caixeiro viajante. Conforme demostrado no artigo referenciado abaixo [1], o operador de construção sequencial (Sequential constructive crossover operator) apresenta melhores resultados que outros dois operadores que serão implementados futuramente na classe Crossover.
+
+#### SCRX
+
+O Operador SCRX consiste em pegar olhar o caminhos que os dois pais fazer e ir construindo o gene dos filhos a partir das melhores carcterísticas nos dois. Por exemplo, sejam os pais [1,2,3,5,4,6,7] e [1,2,5,4,3,6,7], isto significa que o caminhos que o primeiro pai começa na cidade numero 1, depois vai para a cidade numero 2 e  assim sucessivamente.
+O pai tem o caminho 1-2, a mãe tem o caminho1-2, logo o filho terá como segundo gene o número 2, [1,2,*,*,*,*,*]. Agora, o pai tem 2-3, e mãe tem 2-5, utilizando a matriz fitness, vemos qual dos caminhos tem o maior fitness, e escolhemos ela,se nesse caso for o caminho 2-5, o filho terá esse gene foramndo o caminho [1,2,5,*,*,*,*]. A mãe agora 
+
+
+### Mutação
+
+
 
 ## Guia Rápido do Código 
 
 
 ## Referências
 
-[Ahmed, Zakir. (2010). Genetic Algorithm for the Traveling Salesman Problem using Sequential Constructive Crossover Operator. International Journal of Biometric and Bioinformatics. 3. 10.14569/IJACSA.2020.0110275.](https://www.researchgate.net/publication/41847011_Genetic_Algorithm_for_the_Traveling_Salesman_Problem_using_Sequential_Constructive_Crossover_Operator) 
+[1] [Ahmed, Zakir. (2010). Genetic Algorithm for the Traveling Salesman Problem using Sequential Constructive Crossover Operator. International Journal of Biometric and Bioinformatics. 3. 10.14569/IJACSA.2020.0110275.](https://www.researchgate.net/publication/41847011_Genetic_Algorithm_for_the_Traveling_Salesman_Problem_using_Sequential_Constructive_Crossover_Operator) 
+
+## Comentários
+
+O presente código foi inicialmente desenvolvido para ser o trabalho final da matéria [Métodos Computacionais em Física II](). Além do código um [relatório](/pdf/relatorio) foi produzido, e pode ser encontrado na pasta pdf.
