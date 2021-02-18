@@ -4,7 +4,7 @@ import numpy as np
 
 class Genetic_algorithm():
 
-    def __init__ (self,number_of_city=20,population_size=100,mutation_prob=0.001,crossover_prob=0.6,cost_matrix=False,random_seed=42,generations=100,):
+    def __init__ (self,number_of_city=20,population_size=100,mutation_prob=0.001,crossover_prob=0.6,cost_matrix=False,random_seed=42,generations=100):
 
         #generations have to be larger than 1
 
@@ -71,48 +71,47 @@ class Genetic_algorithm():
     def run(self,crossover_function,mutation=True,first_round=True):
         children=np.zeros((self.population_size,self.number_of_city))
         if not first_round:
-            self.population_history=np.hstack((np.ones((self.population_size,self.generations,self.number_of_city)),self.population_history))
-            self.fitness_history=np.hstack((np.ones((self.population_size,self.generations)),self.fitness_history))
+            self.population_history=np.hstack((np.ones((self.population_size,self.generations,self.number_of_city)),np.flip(self.population_history,axis=1)))
+            self.fitness_history=np.hstack((np.ones((self.population_size,self.generations)),np.flip(self.fitness_history,axis=1)))
 
         if mutation:
             for i in range(self.generations):
                 self.fitness()
-                for j in range(self.population_size):                               
-                    children[j,:]=crossover_function()
+                for j in range(self.population_size):
+                    parents_number=self.roullete_wheel_selection()                                
+                    children[j,:]=crossover_function(parents_number)
+                
                     
                 self.population=children
                 self.Mutation()
-                self.population_history[:,-1-i]=self.population
-                self.fitness_history[:,-1-i]=self.fitness_pop
+                self.population_history[:,i]=self.population
+                self.fitness_history[:,i]=self.fitness_pop
 
         else:
             for i in range(self.generations):
                 self.fitness()
                 for j in range(self.population_size):        
-                    
-                    children[j,:]=crossover_function()
+                    parents_number=self.roullete_wheel_selection()                                
+                    children[j,:]=crossover_function(parents_number)
 
                 self.population=children
-                self.population_history[:,i]=self.population
-
-            
-
-
-
-        def dataframe(self):
+                self.population_history[:,-1-i]=self.population
+    
+    def dataframe(self):
             pass
         
-        def graph(self):
+    def graph(self,save=False,name_img=None):
+
             import matplotlib.pyplot as plt
-
-
+            fig,ax=plt.subplots(1,1,figsize=(9,9))
+            maximum_fitness_history=np.amax(self.fitness_history,axis=0)
+            ax.plot(np.arange(len(maximum_fitness_history)),maximum_fitness_history)
             pass
-
    
 class Crossover(Genetic_algorithm):
 
-    def SCRX(self):
-        parents_number=self.roullete_wheel_selection() 
+    def SCRX(self,parents_number):
+        
         child=np.zeros(int(self.number_of_city))
         parent1=self.population[int(parents_number[0]),:]
         parent2=self.population[int(parents_number[1]),:]
