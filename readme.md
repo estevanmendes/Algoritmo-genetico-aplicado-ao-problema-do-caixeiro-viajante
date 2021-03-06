@@ -6,7 +6,7 @@
 
 <br/><br/>
  <br/><br/>
-![image](/img/tsp.png=100x100)
+![image](/img/tsp.png)
  <br/><br/>
 
  
@@ -51,12 +51,19 @@ Se nenhum dos pais tiver um gene válido, procuramos o primeiro gene válido na 
 [1,2,3,5,4,6,7] e [1,2,5,4,3,6,7] ---- filho [None,None,None,None,None,None,None]
 
 Pai 1, Mae 1 - filho [1,None,None,None,None,None,None]
+
 Pai 2, Mae 2 - filho [1,2,None,None,None,None,None]
+
 Pai 3(fit=50), Mae 5(fit=70) - filho [1,2,5,None,None,None,None]
+
 Pai 4, Mae 4 - filho [1,2,5,4,None,None,None]
+
 Pai 6(fit=40), Mae 3(fit=70) - filho [1,2,5,4,3,None,None]
+
 Pai 6, Mae 6 - filho [1,2,5,4,3,6,None]
+
 Pai 7, Mae 7 - filho [1,2,5,4,3,6,7]
+
 filho [1,2,5,4,3,6,7]
 
 
