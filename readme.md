@@ -6,7 +6,7 @@
 
 <br/><br/>
  <br/><br/>
-![image](/img/tsp.png)
+![image](/img/tsp.png=100x100)
  <br/><br/>
 
  
@@ -25,7 +25,7 @@ No nosso problema o fitness do indivíduo é inversamente proporcioanl a  distâ
 
 ### A Roleta da Escolha dos pais
 
-Para escolher os indivíduos que farão a reprodução é utilizado o método da roleta. Ele consiste em somar todos os fitness, gerar um número aleatóriamente dentro do intervalo [0,soma dos fitness) e escolher o indivíduo que estiver contiver o número sorteado.
+Para escolher os indivíduos que farão a reprodução é utilizado o método da roleta. Ele consiste em somar todos os fitness, gerar um número aleatoriamente dentro do intervalo [0,soma dos fitness) e escolher o indivíduo que estiver contiver o número sorteado.
 
 Por exemplo, sejam os fitness 100,200,400. A soma dos fitness é de 700.
 
@@ -40,12 +40,24 @@ Utilizando esse método damos prioridade aos indivíduos com maior fitness, pois
 
 ### Operadores de Crossover
 
-Há diversos tipos de algoritmos de crossover, cujo objetivo é fazer a mistura dos genes dos pais de forma aleatória preservando o conceito do problema do caixeiro viajante. Conforme demostrado no artigo referenciado abaixo [1], o operador de construção sequencial (Sequential constructive crossover operator) apresenta melhores resultados que outros dois operadores que serão implementados futuramente na classe Crossover.
+Há diversos tipos de algoritmos de crossover cujo objetivo é fazer a mistura dos genes dos pais de forma aleatória preservando o conceito do problema do caixeiro viajante. Conforme demostrado no artigo referenciado abaixo [1], o operador de construção sequencial (Sequential constructive crossover operator) apresenta melhores resultados que outros dois operadores que serão implementados futuramente na classe Crossover.
 
 #### SCRX
 
-O Operador SCRX consiste em pegar olhar o caminhos que os dois pais fazer e ir construindo o gene dos filhos a partir das melhores carcterísticas nos dois. Por exemplo, sejam os pais [1,2,3,5,4,6,7] e [1,2,5,4,3,6,7], isto significa que o caminhos que o primeiro pai começa na cidade numero 1, depois vai para a cidade numero 2 e  assim sucessivamente.
-O pai tem o caminho 1-2, a mãe tem o caminho1-2, logo o filho terá como segundo gene o número 2, [1,2,*,*,*,*,*]. Agora, o pai tem 2-3, e mãe tem 2-5, utilizando a matriz fitness, vemos qual dos caminhos tem o maior fitness, e escolhemos ela,se nesse caso for o caminho 2-5, o filho terá esse gene foramndo o caminho [1,2,5,*,*,*,*]. A mãe agora 
+O Operador SCRX consiste em pegar olhar o caminhos que os dois pais fazer e ir construindo o gene dos filhos a partir das melhores carcterísticas nos dois. Por exemplo, sejam os pais [1,2,3,5,4,6,7] e [1,2,5,4,3,6,7], isto significa que o caminhos que o primeiro pai começa na cidade numero 1, depois vai para a cidade numero 2 e  assim sucessivamente. Conforme exemplificado inicia-se no primeiro nodo, em seguindo verifica-se em cada pai o primeiro nodo legítimo, isto é, aquele que ainda não foi inserido no filho. Após termos dois nodos válidos, observamos o custo, ou o fit de cada opção, aquela que tiver o melhor fit permanecerá enquanto gene do filho. Isto é feito sucessivamente até que os genes do filho estejam definidos.
+
+Se nenhum dos pais tiver um gene válido, procuramos o primeiro gene válido na lista de todos os genes possíveis. Ou seja, vemos de forma ordenada qual a primeira cidade que não faz parte do caminho do filho.
+
+[1,2,3,5,4,6,7] e [1,2,5,4,3,6,7] ---- filho [None,None,None,None,None,None,None]
+
+Pai 1, Mae 1 - filho [1,None,None,None,None,None,None]
+Pai 2, Mae 2 - filho [1,2,None,None,None,None,None]
+Pai 3(fit=50), Mae 5(fit=70) - filho [1,2,5,None,None,None,None]
+Pai 4, Mae 4 - filho [1,2,5,4,None,None,None]
+Pai 6(fit=40), Mae 3(fit=70) - filho [1,2,5,4,3,None,None]
+Pai 6, Mae 6 - filho [1,2,5,4,3,6,None]
+Pai 7, Mae 7 - filho [1,2,5,4,3,6,7]
+filho [1,2,5,4,3,6,7]
 
 
 ### Mutação

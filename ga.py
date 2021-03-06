@@ -39,7 +39,7 @@ class Genetic_algorithm():
 
 
     def fitness(self,cost_matrix=False,maxmization=False):
-
+        self.fitness_pop=np.zeros(self.population_size)
         for i in range(self.population_size):
             for j in range(self.number_of_city-1):
                 self.fitness_pop[i]+=self.fitness_matrix[int(self.population[i,j]),int(self.population[i,j+1])]
@@ -60,13 +60,20 @@ class Genetic_algorithm():
         
 
     def roullete_wheel_selection(self):
-        parents_selected=np.zeros(2)
+        parents_selected=np.zeros(self.number_of_city)
         tri_lower=np.tril(np.ones((self.population_size,self.population_size)))
         wheel=np.dot(tri_lower,self.fitness_pop)
-        for j in range(2):
-            spin=np.random.uniform(max(wheel))
+        for j in range(self.number_of_city):
+            spin=np.random.uniform(low=10.**-8.,high=max(wheel))
             parents_selected[j]=(np.array(np.where(np.greater_equal(wheel,spin)==True)))[0,0]
-        return parents_selected
+        pair_parents=np.random.choice(parents_selected,(self.population_size,2))
+        same_parent=np.where(pair_parents[:,0]==pair_parents[:,1])
+        if len(same_parent)!=0:
+            parents_selected=np.delete(parents_selected,np.where(pair_parents[same_parent,0]==parents_selected),None)
+            for i in same_parent:                
+                pair_parents[i,0]=np.random.choice(parents_selected)
+       
+        return pair_parents
 
     def run(self,crossover_function,mutation=True,first_round=True):
         children=np.zeros((self.population_size,self.number_of_city))
@@ -77,11 +84,10 @@ class Genetic_algorithm():
         if mutation:
             for i in range(self.generations):
                 self.fitness()
+                parents_set=self.roullete_wheel_selection()                                
                 for j in range(self.population_size):
-                    parents_number=self.roullete_wheel_selection()                                
-                    children[j,:]=crossover_function(parents_number)
-                
-                    
+                    children[j,:]=crossover_function(parents_set[j,:])
+                                    
                 self.population=children
                 self.Mutation()
                 self.population_history[:,i]=self.population
@@ -90,12 +96,13 @@ class Genetic_algorithm():
         else:
             for i in range(self.generations):
                 self.fitness()
-                for j in range(self.population_size):        
-                    parents_number=self.roullete_wheel_selection()                                
-                    children[j,:]=crossover_function(parents_number)
-
+                parents_set=self.roullete_wheel_selection()                                
+                for j in range(self.population_size):
+                    children[j,:]=crossover_function(parents_set[j,:])
+                                    
                 self.population=children
-                self.population_history[:,-1-i]=self.population
+                self.population_history[:,i]=self.population
+                self.fitness_history[:,i]=self.fitness_pop
     
     def dataframe(self):
             pass
@@ -105,35 +112,61 @@ class Genetic_algorithm():
             import matplotlib.pyplot as plt
             fig,ax=plt.subplots(1,1,figsize=(9,9))
             maximum_fitness_history=np.amax(self.fitness_history,axis=0)
-            ax.plot(np.arange(len(maximum_fitness_history)),maximum_fitness_history)
-            pass
+            ax.plot(np.arange(len(maximum_fitness_history)),1./maximum_fitness_history)
+            ax.set(xlabel='generations',ylabel="shortest path distance ")
+            ax.set_title('Traveling Salesman Porblem')
    
 class Crossover(Genetic_algorithm):
 
+                    
     def SCRX(self,parents_number):
         
-        child=np.zeros(int(self.number_of_city))
+        child=np.ones(int(self.number_of_city))*-1.
         parent1=self.population[int(parents_number[0]),:]
         parent2=self.population[int(parents_number[1]),:]
-        equal=np.equal(parent1,parent2)
-        child[equal]=parent1[equal]
-        differ=np.arange(self.number_of_city)[~equal]
-        for i in differ:
-            loc1_1=parent1[i-1]
-            loc1_2=parent1[i]
+        cities_left=np.zeros(self.number_of_city)
+        node=[0,0]
+
+        for k in range(self.number_of_city-1):
+
+            if node[0]>=self.number_of_city-1 and node[1]>=self.number_of_city-1:
+                child[k]=cities_left[0]
+
+            elif (node[0]>=self.number_of_city-1 and parent2[node[1]] in child):
+               child[k]=cities_left[0]
             
-            loc2_1=parent2[i-1]
-            loc2_2=parent2[i]
+            elif (node[1]>=self.number_of_city-1 and parent1[node[0]] in child):
+               child[k]=cities_left[0]
 
-            fit1=self.fitness_matrix[int(loc1_1),int(loc1_2)]
-            fit2=self.fitness_matrix[int(loc2_1),int(loc2_2)]
+            elif (node[0]>=self.number_of_city-1 and parent2[node[1]] not in child) or (parent1[node[0]] in child and parent2[node[1]] not in child):
+               child[k]=parent2[node[1]]
 
-            if fit1>fit2:
-                child[i]=parent1[i]
+            elif (node[1]>=self.number_of_city-1 and parent1[node[0]] not in child) or (parent2[node[1]] in child and parent1[node[0]] not in child) :
+                child[k]=parent1[node[0]]
+
+
+               
+            elif parent2[node[1]] in child and parent1[node[0]] in child:
+                child[k]=cities_left[0]
+
+            elif parent1[node[0]]==parent2[node[1]]:
+                child[k]=parent1[node[0]]
+
             else:
-                child[i]=parent2[i]
+                
+                loc1=[parent1[node[0]],parent1[node[0]+1]]
+                fit_1=self.fitness_matrix[int(loc1[0]),int(loc1[1])]
+
+                loc2=[parent2[node[1]],parent2[node[1]+1]]
+                fit_2=self.fitness_matrix[int(loc2[0]),int(loc2[1])]
+                if fit_1>=fit_2:
+                    child[k]=parent1[node[0]]
+                else:
+                    child[k]=parent2[node[1]]
+
+            node=[int(np.where(parent1==child[k])[0]+1),int(np.where(parent2==child[k])[0])+1]
+            cities_left=np.setdiff1d(np.arange(self.number_of_city),child)
+
+        child[-1]=cities_left
 
         return child
-                    
-
-
