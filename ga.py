@@ -4,11 +4,11 @@ import numpy as np
 
 class Genetic_algorithm():
 
-    def __init__ (self,number_of_city=20,population_size=100,mutation_prob=0.001,crossover_prob=0.6,cost_matrix=False,random_seed=42,generations=100):
+    def __init__ (self,number_of_cities=20,population_size=100,mutation_prob=0.001,crossover_prob=0.6,cost_matrix=False,random_seed=42,generations=100):
 
         #generations have to be larger than 1
 
-        self.number_of_city=number_of_city
+        self.number_of_cities=number_of_cities
         self.population_size=population_size
         self.mutation_prob=mutation_prob
         self.crossover_prob=crossover_prob
@@ -19,20 +19,20 @@ class Genetic_algorithm():
         np.random.seed(random_seed)
 
         if not cost_matrix:
-            self.cost_matrix=np.random.rand(number_of_city,number_of_city)*100
-            self.cost_matrix[np.diag_indices(number_of_city)]=999*np.ones(number_of_city)
+            self.cost_matrix=np.random.rand(number_of_cities,number_of_cities)*100
+            self.cost_matrix[np.diag_indices(number_of_cities)]=999*np.ones(number_of_cities)
 
         fitness_matrix=1./self.cost_matrix
         self.fitness_matrix=fitness_matrix
 
-        initial_pop=np.tile(np.arange(number_of_city),(population_size,1))
+        initial_pop=np.tile(np.arange(number_of_cities),(population_size,1))
 
         for i in range(population_size):
             np.random.shuffle(initial_pop[i,1:-1])
 
         self.population=initial_pop
         self.fitness_pop=np.zeros(population_size)
-        self.population_history=np.ones((population_size,generations,number_of_city))*100
+        self.population_history=np.ones((population_size,generations,number_of_cities))*100
         self.fitness_history=np.zeros((population_size,generations))
         
         
@@ -41,7 +41,7 @@ class Genetic_algorithm():
     def fitness(self,cost_matrix=False,maxmization=False):
         self.fitness_pop=np.zeros(self.population_size)
         for i in range(self.population_size):
-            for j in range(self.number_of_city-1):
+            for j in range(self.number_of_cities-1):
                 self.fitness_pop[i]+=self.fitness_matrix[int(self.population[i,j]),int(self.population[i,j+1])]
 
     def Mutation(self):
@@ -52,7 +52,7 @@ class Genetic_algorithm():
         temp=np.arange(self.population_size)
         pop_mutated=temp[pop_mutated]
         for  i in pop_mutated:
-            changes=np.random.randint(1,self.number_of_city-1,size=2)
+            changes=np.random.randint(1,self.number_of_cities-1,size=2)
             a=int(self.population[i,changes[0]])
             b=int(self.population[i,changes[1]])
             self.population[i,changes[0]]=b
@@ -60,10 +60,10 @@ class Genetic_algorithm():
         
 
     def roullete_wheel_selection(self):
-        parents_selected=np.zeros(self.number_of_city)
+        parents_selected=np.zeros(self.number_of_cities)
         tri_lower=np.tril(np.ones((self.population_size,self.population_size)))
         wheel=np.dot(tri_lower,self.fitness_pop)
-        for j in range(self.number_of_city):
+        for j in range(self.number_of_cities):
             spin=np.random.uniform(low=10.**-8.,high=max(wheel))
             parents_selected[j]=(np.array(np.where(np.greater_equal(wheel,spin)==True)))[0,0]
         pair_parents=np.random.choice(parents_selected,(self.population_size,2))
@@ -76,9 +76,9 @@ class Genetic_algorithm():
         return pair_parents
 
     def run(self,crossover_function,mutation=True,first_round=True):
-        children=np.zeros((self.population_size,self.number_of_city))
+        children=np.zeros((self.population_size,self.number_of_cities))
         if not first_round:
-            self.population_history=np.hstack((np.ones((self.population_size,self.generations,self.number_of_city)),np.flip(self.population_history,axis=1)))
+            self.population_history=np.hstack((np.ones((self.population_size,self.generations,self.number_of_cities)),np.flip(self.population_history,axis=1)))
             self.fitness_history=np.hstack((np.ones((self.population_size,self.generations)),np.flip(self.fitness_history,axis=1)))
 
         if mutation:
@@ -121,27 +121,27 @@ class Crossover(Genetic_algorithm):
                     
     def SCRX(self,parents_number):
         
-        child=np.ones(int(self.number_of_city))*-1.
+        child=np.ones(int(self.number_of_cities))*-1.
         parent1=self.population[int(parents_number[0]),:]
         parent2=self.population[int(parents_number[1]),:]
-        cities_left=np.zeros(self.number_of_city)
+        cities_left=np.zeros(self.number_of_cities)
         node=[0,0]
 
-        for k in range(self.number_of_city-1):
+        for k in range(self.number_of_cities-1):
 
-            if node[0]>=self.number_of_city-1 and node[1]>=self.number_of_city-1:
+            if node[0]>=self.number_of_cities-1 and node[1]>=self.number_of_cities-1:
                 child[k]=cities_left[0]
 
-            elif (node[0]>=self.number_of_city-1 and parent2[node[1]] in child):
+            elif (node[0]>=self.number_of_cities-1 and parent2[node[1]] in child):
                child[k]=cities_left[0]
             
-            elif (node[1]>=self.number_of_city-1 and parent1[node[0]] in child):
+            elif (node[1]>=self.number_of_cities-1 and parent1[node[0]] in child):
                child[k]=cities_left[0]
 
-            elif (node[0]>=self.number_of_city-1 and parent2[node[1]] not in child) or (parent1[node[0]] in child and parent2[node[1]] not in child):
+            elif (node[0]>=self.number_of_cities-1 and parent2[node[1]] not in child) or (parent1[node[0]] in child and parent2[node[1]] not in child):
                child[k]=parent2[node[1]]
 
-            elif (node[1]>=self.number_of_city-1 and parent1[node[0]] not in child) or (parent2[node[1]] in child and parent1[node[0]] not in child) :
+            elif (node[1]>=self.number_of_cities-1 and parent1[node[0]] not in child) or (parent2[node[1]] in child and parent1[node[0]] not in child) :
                 child[k]=parent1[node[0]]
 
 
@@ -165,8 +165,11 @@ class Crossover(Genetic_algorithm):
                     child[k]=parent2[node[1]]
 
             node=[int(np.where(parent1==child[k])[0]+1),int(np.where(parent2==child[k])[0])+1]
-            cities_left=np.setdiff1d(np.arange(self.number_of_city),child)
+            cities_left=np.setdiff1d(np.arange(self.number_of_cities),child)
 
         child[-1]=cities_left
 
         return child
+
+        def PBX(self,):
+            pass

@@ -66,23 +66,59 @@ Pai 7, Mae 7 - filho [1,2,5,4,3,6,7]
 
 filho [1,2,5,4,3,6,7]
 
+#### PBX 
+
+
 
 ### Mutação
 
-
+O mecanismo de mutação implementado consiste na troca da posição de genes. Há uma probabilidade de que cada indivíduo da população sofra mutação. Caso o indíduo seja selecionado para receber a mutação são sorteados dois número inteiros que correspondem a posição dos genes que trocarçao de posição.
 
 ## Guia Rápido do Código 
 
 Há duas classes no programa a primeira detem a estrutura fundamental para um tipo de tratamento dos algoritmos genéticos, a segunda contém os operadores que realizam o crossovers nos arrays fazendo o cruzamento entre os pais. 
+```
+from ga import Genetic_algorithm, Crossover
 
+tsp=Crossover(number_of_cities=100, generations=50, population_size=1000)
+print(tsp.population)
+tsp.run(crossover_function=tsp.SCRX)
+print(tsp.population_history)
+print(tsp.fitness_history)
+tsp.graph()
+tsp.run(first_round=False,crossover_function=teste.SCRX)
+tsp.graph()
+
+```
 ### Genetic algorithm
 
 #### Atributos
 
+number_of_cities
+population_size
+mutation_prob
+generations
+cost_matriz
+seed
+population
+fitness_pop
+fitness_history
+population_hystory
+
+
+
 #### Métodos 
 
+fitness(cost_matrix,maxmization)
+Mutation()
+roullete_wheel_selection()
+run(crossover_function,mutation,first_round)
+dataframe()
+graph(save,name_img)
 
 ### Crossover
+
+SCRX(parents_number)
 
 #### Atributos
 
