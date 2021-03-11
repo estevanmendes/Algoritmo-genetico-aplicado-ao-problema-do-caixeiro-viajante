@@ -115,6 +115,19 @@ class Genetic_algorithm():
             ax.plot(np.arange(len(maximum_fitness_history)),1./maximum_fitness_history)
             ax.set(xlabel='generations',ylabel="shortest path distance ")
             ax.set_title('Traveling Salesman Porblem')
+
+    def TSPLIB(self,url):
+        
+        import pandas as pd
+        import re
+        df=pd.read_csv(url,header=None)
+        values=df.iloc[:,0].values
+        string=' '.join(array) 
+        regex='([0-9]+)'
+        numbers=re.findall(regex,string)
+        array=np.array(mumbers[2:])
+        array=array.reshape(int(len(array)**0.5),int(len(array)**0.5))
+        return array
    
 class Crossover(Genetic_algorithm):
 
@@ -170,6 +183,3 @@ class Crossover(Genetic_algorithm):
         child[-1]=cities_left
 
         return child
-
-        def PBX(self,):
-            pass

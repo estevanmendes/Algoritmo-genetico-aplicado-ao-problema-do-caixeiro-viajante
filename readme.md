@@ -76,22 +76,34 @@ O mecanismo de mutação implementado consiste na troca da posição de genes. H
 
 ## Guia Rápido do Código 
 
-Há duas classes no programa a primeira detem a estrutura fundamental para um tipo de tratamento dos algoritmos genéticos, a segunda contém os operadores que realizam o crossovers nos arrays fazendo o cruzamento entre os pais. 
+ Importando a classe e inicializando 50 gerações, uma população com 1000 indivíduos e um caminho que passa por 100 cidades
+
 ```
 from ga import Genetic_algorithm, Crossover
-
 tsp=Crossover(number_of_cities=100, generations=50, population_size=1000)
+```
+
+Printando a população inicial e fazendo randando 50 gerações usando o método de crossover SCRX
+```
 print(tsp.population)
 tsp.run(crossover_function=tsp.SCRX)
+```
+Printantdo o fitness das populações através as gerações bem como os genes da população. E estamos gerando um gráfico do mínimo da mínima distância através das gerações.
+
+```
 print(tsp.population_history)
 print(tsp.fitness_history)
 tsp.graph()
+```
+Rodando mais 50 gerações e plotando um novo gráfico.
+```
 tsp.run(first_round=False,crossover_function=teste.SCRX)
 tsp.graph()
-
 ```
-### Genetic algorithm
 
+
+### Genetic algorithm
+Há duas classes no programa a primeira detem a estrutura fundamental para um tipo de tratamento dos algoritmos genéticos, a segunda contém os operadores que realizam o crossovers nos arrays fazendo o cruzamento entre os pais.
 #### Atributos
 
 number_of_cities
@@ -109,12 +121,17 @@ population_hystory
 
 #### Métodos 
 
-fitness(cost_matrix,maxmization)
-Mutation()
-roullete_wheel_selection()
-run(crossover_function,mutation,first_round)
-dataframe()
-graph(save,name_img)
+fitness(cost_matrix,maxmization) - função que calcula o fitness de cada população
+
+Mutation()- função para gerar a mutação nos indivídos
+
+roullete_wheel_selection() - função para escolher os pais da próxima geração
+
+run(crossover_function,mutation,first_round) - função que itera e roda o código pelo número de gerações incializado. Caso não seja a primeira rodada de dados será necessário passar o argumento first_round=False. Se não deseja que haja mutação no algoritmo é necessário passar o argumento mutation=False, o padrão é mutation=True.
+
+dataframe() - gera um dataframe dos dados das populações e do fitness das populações
+
+graph(save,name_img) - gera um gráfico da distância mínica a cada geração. Se save=True, a imagem será salva e será necessário passar um nome pela variável name_img.
 
 ### Crossover
 
