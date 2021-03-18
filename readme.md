@@ -102,11 +102,18 @@ teste.graph(best_known_solution=2755,save=True,name_img='tsp_fftv170_1000_genera
 
 
 
+### [FTV170](http://elib.zib.de/pub/mp-testdata/tsp/tsplib/atsp/ftv170.atsp) - 171 Cidades
+
 ![img1](img/ftv170_1000_generations_200_population_crossover_100_mutation_1_elite_100.png)
 
 
 
 ![img2](img/ftv170_3000_generations_200_population_crossover_100_mutation_1_elite_100.png)
+
+
+### [BR17](http://elib.zib.de/pub/mp-testdata/tsp/tsplib/atsp/br17.atsp)
+
+![img3](img/br17_100_generations_population_200_elite_100_crossover_100_mutation_1.png)
 
 
 ### Genetic algorithm
@@ -155,8 +162,6 @@ A classe Genetic algorithm é a superclasse da classe Crossover
 SCRX(parents_number)
 
 OX(parents_number)
-
-
 
 
 
