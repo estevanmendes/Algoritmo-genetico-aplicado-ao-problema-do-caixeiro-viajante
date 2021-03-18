@@ -4,7 +4,7 @@ import heapq
 
 class Genetic_algorithm():
 
-    def __init__ (self,number_of_cities=20,population_size=100,mutation_prob=0.001,crossover_prob=0.5,cost_matrix=False,random_seed=42,generations=100,elitism_rate=0.3):
+    def __init__ (self,number_of_cities=20,population_size=100,mutation_prob=0.001,crossover_prob=0.5,cost_matrix=False,random_seed=42,generations=100,elite=1):
 
         #generations have to be larger than 1
         if generations<=1:
@@ -17,7 +17,7 @@ class Genetic_algorithm():
         self.generations=generations
         self.cost_matrix=cost_matrix
         self.seed=random_seed
-        self.elitism_rate=elitism_rate
+        self.elite=elite
 
         # np.random.seed(random_seed)
 
@@ -87,10 +87,10 @@ class Genetic_algorithm():
         return crossover_pop, non_crossover_pop
 
     def elitism(self):
-        elite=int(self.population_size*self.elitism_rate)
+        elite=int(self.elite)
         index_elite=heapq.nlargest(elite, range(self.population_size), self.fitness_pop.take)
         
-        return self.population[index_elite,:],elite
+        return self.population[index_elite,:]
 
 
     def run(self,crossover_function,mutation=True,first_round=True):
@@ -104,9 +104,9 @@ class Genetic_algorithm():
             for i in range(self.generations):
                 self.fitness()
                 parents_set=self.roullete_wheel_selection()   
-                elite,size_elite=self.elitism()
+                elite_pop=self.elitism()
                 
-                crossover_pop,non_crossover_pop=self.crossover_selection(size_elite)
+                crossover_pop,non_crossover_pop=self.crossover_selection(self.elite)
                 for j in crossover_pop:
 
                     children[j,:]=crossover_function(parents_set[j,:])
@@ -115,7 +115,7 @@ class Genetic_algorithm():
 
                 self.population=children
                 self.Mutation()
-                self.population[0:size_elite,:]=elite              
+                self.population[0:self.elite,:]=elite_pop             
             
                 self.population_history[:,i]=self.population
                 self.fitness_history[:,i]=self.fitness_pop

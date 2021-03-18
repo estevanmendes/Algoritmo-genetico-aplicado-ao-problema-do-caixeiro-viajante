@@ -66,9 +66,9 @@ Pai 7, Mae 7 - filho [1,2,5,4,3,6,7]
 
 filho [1,2,5,4,3,6,7]
 
-#### PMX 
+#### OX 
 
-O operador ordenado (ordered )  consiste em gerar dois números aleatórios que representem dois pontos dos genes dos indivíduos. Os genes no meio do intervalo sorteado são pegos pai e passados para o filho. Em seguida, retira-se os genes que já pertencem  ao filho que estão nos genes da mãe, então de forma ordenado os genes da mãe assumem as posições fora da invervalo sorteado, preenchendo primeiramente o espaço após o intervalo. A figura abaixo exemplifica este processo.
+O operador ordenado (order crossover)  consiste em gerar dois números aleatórios que representem dois pontos dos genes dos indivíduos. Os genes no meio do intervalo sorteado são pegos pai e passados para o filho. Em seguida, retira-se os genes que já pertencem  ao filho que estão nos genes da mãe, então de forma ordenado os genes da mãe assumem as posições fora da invervalo sorteado, preenchendo primeiramente o espaço após o intervalo. A figura abaixo exemplifica este processo.
 
 ![ox](/img/OX.png)
 
@@ -101,6 +101,14 @@ teste.graph(best_known_solution=2755,save=True,name_img='tsp_fftv170_1000_genera
 ## Alguns resultados obtidos com o Algoritmo
 
 
+
+![img1](img/ftv170_1000_generations_200_population_crossover_100_mutation_1_elite_100.png)
+
+
+
+![img2](img/ftv170_3000_generations_200_population_crossover_100_mutation_1_elite_100.png)
+
+
 ### Genetic algorithm
 Há duas classes no programa a primeira detem a estrutura fundamental para um tipo de tratamento dos algoritmos genéticos, a segunda contém os operadores que realizam o crossovers nos arrays fazendo o cruzamento entre os pais.
 #### Atributos
@@ -127,7 +135,7 @@ roullete_wheel_selection() - função para escolher os pais da próxima geraçã
 
 crossover_selection() - seleciona os indivíduos que sofreram crossover, dependendo da probabiliade de crossover que é passada no construtor.
 
-elitism() - Caso o parâmetro elitism_rate seja diferente de 0, uma fração dos melhores indivíduos da generação atual será passada para a próxima sem qualquer modificação.
+elitism() - Caso o parâmetro elite seja diferente de 0, uma fração dos melhores indivíduos da generação atual será passada para a próxima sem qualquer modificação.
 
 run(crossover_function,mutation,first_round) - função que itera e roda o código pelo número de gerações incializado. Caso não seja a primeira rodada de dados será necessário passar o argumento first_round=False. Se não deseja que haja mutação no algoritmo é necessário passar o argumento mutation=False, o padrão é mutation=True.
 
