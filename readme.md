@@ -66,7 +66,11 @@ Pai 7, Mae 7 - filho [1,2,5,4,3,6,7]
 
 filho [1,2,5,4,3,6,7]
 
-#### PBX 
+#### PMX 
+
+O operador ordenado (ordered )  consiste em gerar dois números aleatórios que representem dois pontos dos genes dos indivíduos. Os genes no meio do intervalo sorteado são pegos pai e passados para o filho. Em seguida, retira-se os genes que já pertencem  ao filho que estão nos genes da mãe, então de forma ordenado os genes da mãe assumem as posições fora da invervalo sorteado, preenchendo primeiramente o espaço após o intervalo. A figura abaixo exemplifica este processo.
+
+![ox](/img/OX.png)
 
 
 
@@ -76,46 +80,40 @@ O mecanismo de mutação implementado consiste na troca da posição de genes. H
 
 ## Guia Rápido do Código 
 
- Importando a classe e inicializando 50 gerações, uma população com 1000 indivíduos e um caminho que passa por 100 cidades
+ Importando a classe e inicializando 1000 gerações, uma população com 300 indivíduos e um caminho que passa por 300 cidades
 
 ```
 from ga import Genetic_algorithm, Crossover
-tsp=Crossover(number_of_cities=100, generations=50, population_size=1000)
+tsp=Crossover(number_of_cities=171, generations=1000, population_size=300)
 ```
 
-Printando a população inicial e fazendo randando 50 gerações usando o método de crossover SCRX
+Utilizando a matriz de distâncias do problema assimétrico do caixeiro viajante para 171 cidades e fazendo rodar para  1000 gerações usando o método de crossover SCRX
 ```
-print(tsp.population)
+teste.TSPLIB('http://elib.zib.de/pub/mp-testdata/tsp/tsplib/atsp/ftv170.atsp')
 tsp.run(crossover_function=tsp.SCRX)
 ```
-Printantdo o fitness das populações através as gerações bem como os genes da população. E estamos gerando um gráfico do mínimo da mínima distância através das gerações.
+Printando o fitness das populações através as gerações bem como os genes da população. E estamos gerando um gráfico do mínimo da mínima distância através das gerações.
 
 ```
-print(tsp.population_history)
-print(tsp.fitness_history)
-tsp.graph()
+teste.graph(best_known_solution=2755,save=True,name_img='tsp_fftv170_1000_generations_300_pop.png')
 ```
-Rodando mais 50 gerações e plotando um novo gráfico.
-```
-tsp.run(first_round=False,crossover_function=teste.SCRX)
-tsp.graph()
-```
+
+## Alguns resultados obtidos com o Algoritmo
 
 
 ### Genetic algorithm
 Há duas classes no programa a primeira detem a estrutura fundamental para um tipo de tratamento dos algoritmos genéticos, a segunda contém os operadores que realizam o crossovers nos arrays fazendo o cruzamento entre os pais.
 #### Atributos
 
-number_of_cities
-population_size
-mutation_prob
-generations
-cost_matriz
-seed
-population
-fitness_pop
-fitness_history
-population_hystory
+number_of_cities - Número de cidades no problema
+population_size - Número de individos na população 
+mutation_prob - Probabilidade de mutação
+generations - Número de gerações
+seed - Número da SEED dos números aleatórios
+population - População da geração atual
+fitness_pop - fitness da população na geração atual
+fitness_history - histórico do fitness das populações 
+population_hystory - histórico das populações em cada geração
 
 
 
@@ -127,25 +125,39 @@ Mutation()- função para gerar a mutação nos indivídos
 
 roullete_wheel_selection() - função para escolher os pais da próxima geração
 
+crossover_selection() - seleciona os indivíduos que sofreram crossover, dependendo da probabiliade de crossover que é passada no construtor.
+
+elitism() - Caso o parâmetro elitism_rate seja diferente de 0, uma fração dos melhores indivíduos da generação atual será passada para a próxima sem qualquer modificação.
+
 run(crossover_function,mutation,first_round) - função que itera e roda o código pelo número de gerações incializado. Caso não seja a primeira rodada de dados será necessário passar o argumento first_round=False. Se não deseja que haja mutação no algoritmo é necessário passar o argumento mutation=False, o padrão é mutation=True.
 
-dataframe() - gera um dataframe dos dados das populações e do fitness das populações
+dataframe() - gera um dataframe dos dados dos genes das populações de cada geração
 
-graph(save,name_img) - gera um gráfico da distância mínica a cada geração. Se save=True, a imagem será salva e será necessário passar um nome pela variável name_img.
+graph(best_known_solution=False,save=False,name_img=None) - Gera um gráfico da distância mínima e do fitness máximo a cada geraação. Se save=True, a imagem será salva e será necessário passar um nome pela variável name_img. Além disso, é possível passar uma reta contento o valor da melhor solução conhecida por meio do argumento best_known_solutions, é esperado um float. 
+
+TSPLIB(url) - utiliza a biblioteca TSPLIB que contém dados e soluções de diversos problemas do caixeiro viajante. É necessário passar a url da matriz com os dados do problema que almeja-se que seja solucionado. Após isso a matriz que define as distâncias será a que é apresentada no site.
+
 
 ### Crossover
 
-SCRX(parents_number)
-
-#### Atributos
+A classe Genetic algorithm é a superclasse da classe Crossover
 
 #### Métodos 
+
+SCRX(parents_number)
+
+OX(parents_number)
+
+
+
 
 
 ## Referências
 
 [1] [Ahmed, Zakir. (2010). Genetic Algorithm for the Traveling Salesman Problem using Sequential Constructive Crossover Operator. International Journal of Biometric and Bioinformatics. 3. 10.14569/IJACSA.2020.0110275.](https://www.researchgate.net/publication/41847011_Genetic_Algorithm_for_the_Traveling_Salesman_Problem_using_Sequential_Constructive_Crossover_Operator) 
 
+[2][Potvin, Jean-Yves. "Genetic algorithms for the traveling salesman problem." Annals of Operations Research 63.3 (1996): 337-370.
+](https://link.springer.com/article/10.1007%252FBF02125403)
 ## Comentários
 
 O presente código foi inicialmente desenvolvido para ser o trabalho final da matéria [Métodos Computacionais em Física II](). Além do código um [relatório](/pdf/relatorio.pdf) foi produzido, e pode ser encontrado na pasta pdf.
