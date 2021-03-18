@@ -40,11 +40,11 @@ Utilizando esse método damos prioridade aos indivíduos com maior fitness, pois
 
 ### Operadores de Crossover
 
-Há diversos tipos de algoritmos de crossover cujo objetivo é fazer a mistura dos genes dos pais de forma aleatória preservando o conceito do problema do caixeiro viajante. Conforme demostrado no artigo referenciado abaixo [1], o operador de construção sequencial (Sequential constructive crossover operator) apresenta melhores resultados que outros dois operadores que serão implementados futuramente na classe Crossover.
+Há diversos tipos de algoritmos de crossover, cujo objetivo é fazer a mistura dos genes dos pais de forma aleatória preservando o conceito do problema do caixeiro viajante. Conforme demostrado no artigo referenciado abaixo [1], o operador de construção sequencial (Sequential constructive crossover operator) apresenta melhores resultados que outros dois operadores que serão implementados futuramente na classe Crossover.
 
 #### SCRX
 
-O Operador SCRX consiste em pegar olhar o caminhos que os dois pais fazer e ir construindo o gene dos filhos a partir das melhores carcterísticas nos dois. Por exemplo, sejam os pais [1,2,3,5,4,6,7] e [1,2,5,4,3,6,7], isto significa que o caminhos que o primeiro pai começa na cidade numero 1, depois vai para a cidade numero 2 e  assim sucessivamente. Conforme exemplificado inicia-se no primeiro nodo, em seguindo verifica-se em cada pai o primeiro nodo legítimo, isto é, aquele que ainda não foi inserido no filho. Após termos dois nodos válidos, observamos o custo, ou o fit de cada opção, aquela que tiver o melhor fit permanecerá enquanto gene do filho. Isto é feito sucessivamente até que os genes do filho estejam definidos.
+O Operador SCRX consiste em olhar o caminhos que os dois pais fazem e ir construindo o gene dos filhos a partir das melhores carcterísticas nos dois. Por exemplo, sejam os pais [1,2,3,5,4,6,7] e [1,2,5,4,3,6,7], isto significa que o caminho que do pai começa na cidade numero 1, depois vai para a cidade numero 2 e  assim sucessivamente. Conforme exemplificado inicia-se no primeiro nodo, em seguindo verifica-se em cada pai o primeiro nodo legítimo, isto é, aquele que ainda não foi inserido no filho. Após termos dois nodos válidos, observamos o custo, ou o fit de cada opção, aquela que tiver o melhor fit permanecerá no gene do filho. Isto é feito sucessivamente até que os genes do filho estejam definidos.
 
 Se nenhum dos pais tiver um gene válido, procuramos o primeiro gene válido na lista de todos os genes possíveis. Ou seja, vemos de forma ordenada qual a primeira cidade que não faz parte do caminho do filho.
 
@@ -68,7 +68,7 @@ filho [1,2,5,4,3,6,7]
 
 #### OX 
 
-O operador ordenado (order crossover)  consiste em gerar dois números aleatórios que representem dois pontos dos genes dos indivíduos. Os genes no meio do intervalo sorteado são pegos pai e passados para o filho. Em seguida, retira-se os genes que já pertencem  ao filho que estão nos genes da mãe, então de forma ordenado os genes da mãe assumem as posições fora da invervalo sorteado, preenchendo primeiramente o espaço após o intervalo. A figura abaixo exemplifica este processo.
+O operador ordenado (order crossover)  consiste em gerar dois números aleatórios que representem dois pontos dos genes dos indivíduos. Os genes no meio do intervalo sorteado são pegos do pai e passados para o filho. Em seguida, retira-se os genes que já pertencem ao filho e que estão nos genes da mãe, então de forma ordenado os genes da mãe assumem as posições fora da invervalo sorteado, preenchendo primeiramente o espaço após o intervalo. A figura abaixo exemplifica este processo.
 
 ![ox](/img/OX.png)
 
