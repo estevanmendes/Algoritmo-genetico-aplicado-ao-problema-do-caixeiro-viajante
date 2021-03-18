@@ -121,13 +121,21 @@ Há duas classes no programa a primeira detem a estrutura fundamental para um ti
 #### Atributos
 
 number_of_cities - Número de cidades no problema
-population_size - Número de individos na população 
+
+population_size - Número de individos na população
+
 mutation_prob - Probabilidade de mutação
+
 generations - Número de gerações
+
 seed - Número da SEED dos números aleatórios
+
 population - População da geração atual
+
 fitness_pop - fitness da população na geração atual
+
 fitness_history - histórico do fitness das populações 
+
 population_hystory - histórico das populações em cada geração
 
 
