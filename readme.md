@@ -76,15 +76,15 @@ O operador ordenado (order crossover)  consiste em gerar dois números aleatóri
 
 ### Mutação
 
-O mecanismo de mutação implementado consiste na troca da posição de genes. Há uma probabilidade de que cada indivíduo da população sofra mutação. Caso o indíduo seja selecionado para receber a mutação são sorteados dois número inteiros que correspondem a posição dos genes que trocarçao de posição.
+O mecanismo de mutação implementado consiste na troca da posição de genes. Há uma probabilidade de que cada indivíduo da população sofra mutação. Caso o indíduo seja selecionado para receber a mutação são sorteados dois número inteiros que correspondem a posição dos genes que trocarão de posição.
 
 ## Guia Rápido do Código 
 
- Importando a classe e inicializando 1000 gerações, uma população com 300 indivíduos e um caminho que passa por 300 cidades
+ Importando a classe e inicializando 1000 gerações, uma população com 200 indivíduos e um caminho que passa por 171 cidades
 
 ```
 from ga import Genetic_algorithm, Crossover
-tsp=Crossover(number_of_cities=171, generations=1000, population_size=300)
+tsp=Crossover(number_of_cities=171, generations=1000, population_size=200,crossover_prob=1,elite=100,mutation_prob=0.1)
 ```
 
 Utilizando a matriz de distâncias do problema assimétrico do caixeiro viajante para 171 cidades e fazendo rodar para  1000 gerações usando o método de crossover SCRX
@@ -92,7 +92,7 @@ Utilizando a matriz de distâncias do problema assimétrico do caixeiro viajante
 teste.TSPLIB('http://elib.zib.de/pub/mp-testdata/tsp/tsplib/atsp/ftv170.atsp')
 tsp.run(crossover_function=tsp.SCRX)
 ```
-Printando o fitness das populações através as gerações bem como os genes da população. E estamos gerando um gráfico do mínimo da mínima distância através das gerações.
+Printando o fitness das populações através as gerações bem como os genes da população. E estamos gerando um gráfico da mínima distância através das gerações.
 
 ```
 teste.graph(best_known_solution=2755,save=True,name_img='tsp_fftv170_1000_generations_300_pop.png')
@@ -111,13 +111,13 @@ teste.graph(best_known_solution=2755,save=True,name_img='tsp_fftv170_1000_genera
 ![img2](img/ftv170_3000_generations_200_population_crossover_100_mutation_1_elite_100.png)
 
 
-### [BR17](http://elib.zib.de/pub/mp-testdata/tsp/tsplib/atsp/br17.atsp)
+### [BR17](http://elib.zib.de/pub/mp-testdata/tsp/tsplib/atsp/br17.atsp) - 17 cidades
 
 ![img3](img/br17_100_generations_population_200_elite_100_crossover_100_mutation_1.png)
 
 
 ### Genetic algorithm
-Há duas classes no programa a primeira detem a estrutura fundamental para um tipo de tratamento dos algoritmos genéticos, a segunda contém os operadores que realizam o crossovers nos arrays fazendo o cruzamento entre os pais.
+Há duas classes no programa, a primeira detem a estrutura fundamental para um tipo de tratamento dos algoritmos genéticos, a segunda contém os operadores que realizam o crossovers nos arrays fazendo o cruzamento entre os pais.
 #### Atributos
 
 number_of_cities - Número de cidades no problema
@@ -177,7 +177,7 @@ OX(parents_number)
 
 [1] [Ahmed, Zakir. (2010). Genetic Algorithm for the Traveling Salesman Problem using Sequential Constructive Crossover Operator. International Journal of Biometric and Bioinformatics. 3. 10.14569/IJACSA.2020.0110275.](https://www.researchgate.net/publication/41847011_Genetic_Algorithm_for_the_Traveling_Salesman_Problem_using_Sequential_Constructive_Crossover_Operator) 
 
-[2][Potvin, Jean-Yves. "Genetic algorithms for the traveling salesman problem." Annals of Operations Research 63.3 (1996): 337-370.
+[2] [Potvin, Jean-Yves. "Genetic algorithms for the traveling salesman problem." Annals of Operations Research 63.3 (1996): 337-370.
 ](https://link.springer.com/article/10.1007%252FBF02125403)
 ## Comentários
 
