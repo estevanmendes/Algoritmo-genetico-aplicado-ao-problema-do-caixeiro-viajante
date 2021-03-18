@@ -1,4 +1,4 @@
-# Algoritmos Genéritos Aplicados ao problema do Caixeiro Viajante
+# Algoritmos Genéticos Aplicados ao Problema do Caixeiro Viajante
  
  ## O Problema do Caixeiro Viajante 
 
