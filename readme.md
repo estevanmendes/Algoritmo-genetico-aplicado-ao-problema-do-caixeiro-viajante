@@ -25,7 +25,7 @@ No nosso problema o fitness do indivíduo é inversamente proporcional a  distâ
 
 ### A Roleta da Escolha dos pais
 
-Para escolher os indivíduos que farão a reprodução é utilizado o método da roleta. Ele consiste em somar todos os fitness, gerar um número aleatoriamente dentro do intervalo [0,soma dos fitness) e escolher o indivíduo que estiver contiver o número sorteado.
+Para escolher os indivíduos que farão a reprodução é utilizado o método da roleta. Ele consiste em somar todos os fitness, gerar um número aleatoriamente dentro do intervalo [0,soma dos fitness) e escolher o indivíduo que contiver o número sorteado.
 
 Por exemplo, sejam os fitness 100,200,400. A soma dos fitness é de 700.
 
